@@ -2,7 +2,7 @@
 name: star-flow-evolve
 description: star-flow A-evolve lateral command — sync architecture docs from recent changes. Trigger: 同步架构/evolve/沉淀架构.
 metadata:
-  model: claude
+  model: codex
   role: maintainer
   short-description: Architecture evolution
 ---
