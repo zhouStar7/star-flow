@@ -2,6 +2,7 @@
 name: star-flow-change
 description: star-flow 0-change stage — clarify a change idea into a concrete proposal. Trigger: new feature/bugfix/refactor, or '做/加/改/优化 + X'.
 metadata:
+  role: planner
   short-description: Clarify change, produce CHANGE.md
 ---
 

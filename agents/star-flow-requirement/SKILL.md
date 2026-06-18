@@ -2,6 +2,7 @@
 name: star-flow-requirement
 description: star-flow 1-requirement stage — write acceptance criteria and scope from CHANGE.md. Trigger after 0-change is done.
 metadata:
+  role: planner
   short-description: Analyze requirements, produce REQUIREMENT.md
 ---
 

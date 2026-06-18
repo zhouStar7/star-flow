@@ -2,6 +2,7 @@
 name: star-flow-coordinator
 description: star-flow coordinator — routes user intent to the correct star-flow stage agent. Use as the single entry point. Trigger: star-flow/@star-flow/START.md/workflow intent.
 metadata:
+  role: coordinator
   short-description: Route to star-flow stages
 ---
 
@@ -37,11 +38,26 @@ metadata:
 
 ---
 
+## 🎭 角色 → Agent 映射
+
+读 `../star-flow/roles/ROLES.md` 获取完整角色分配表。简要：
+
+| 角色 | Agent Skills |
+|------|-------------|
+| **协调者** | star-flow-coordinator |
+| **扫描员** | star-flow-scan |
+| **规划师** | star-flow-change, star-flow-requirement, star-flow-design, star-flow-ui-design, star-flow-task |
+| **建造师** | star-flow-dev, star-flow-test |
+| **审查员** | star-flow-review, star-flow-integration |
+| **运维师** | star-flow-architect, star-flow-evolve, star-flow-restyle, star-flow-health |
+
+---
+
 ## 📋 执行指令
 
 1. **读前置**：检查并读取上方列出的前置文件
 2. **读 Prompt**：加载 `../star-flow/references/star-flow/prompts/START.md`
-3. **读模板**：加载 `../star-flow/references/star-flow/无模板 — 输出路由声明即可`
+3. **读角色表**：加载 `../star-flow/roles/ROLES.md`
 4. **读规则**：遵循 `../star-flow/references/star-flow/RULES.md`
 5. **执行**：按 prompt 指令推进
 6. **产出**：按模板写入输出文件

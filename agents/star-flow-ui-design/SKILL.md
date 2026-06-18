@@ -2,6 +2,7 @@
 name: star-flow-ui-design
 description: star-flow 2a-ui-design stage — UI/visual design direction, design tokens. Trigger: UI/视觉/theme/design system (前端项目).
 metadata:
+  role: planner
   short-description: UI design, produce UI-DESIGN.md
 ---
 

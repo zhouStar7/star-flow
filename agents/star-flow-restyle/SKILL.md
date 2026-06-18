@@ -2,6 +2,7 @@
 name: star-flow-restyle
 description: star-flow L-restyle lateral command — restyle/redesign UI without changing functionality. Trigger: 换风格/换皮/restyle.
 metadata:
+  role: maintainer
   short-description: Visual restyle
 ---
 
