@@ -39,6 +39,14 @@ metadata:
 
 ---
 
+## 🔧 可用工具：CodeGraph
+
+本项目集成了 codegraph 代码知识图谱。
+详见 `../star-flow/tools/CODEGRAPH.md`。
+
+**本阶段用法**：codegraph impact 自动影响报告, codegraph callers 发现死代码
+
+
 ## 📋 执行指令
 
 1. **读前置**：检查并读取上方列出的前置文件
