@@ -36,7 +36,7 @@ metadata:
 
 ## 路由规则
 
-加载 `references/star-flow/START.md`，按其路由表匹配用户输入，输出：
+加载 `references/START.md`，按其路由表匹配用户输入，输出：
 
 ```
 ✅ 路由：<阶段名>
