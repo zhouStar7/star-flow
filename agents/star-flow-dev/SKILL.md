@@ -1,6 +1,6 @@
 ---
 name: star-flow-dev
-description: star-flow 4-dev stage — implement one task at a time with TDD + atomic commits. Trigger when told to run a task.
+description: star-flow 4-dev stage — implement one task with TDD + atomic commits. Trigger: 开发/实现/dev/跑 T<N>.
 metadata:
   short-description: Develop code, TDD + commit
 ---
@@ -8,30 +8,48 @@ metadata:
 # star-flow-dev
 
 **Role**: Developer — writes code with TDD, commits atomically, does NOT modify SPEC files
-**Output**: Code changes + SUMMARY.md
 
-## Instructions
+---
 
-1. Read the stage prompt: `~/.hermes/skills/star-flow/references/star-flow/prompts/4-dev.md`
-2. Follow all rules in `~/.hermes/skills/star-flow/references/star-flow/RULES.md`
-3. Read shared methodology: `~/.hermes/skills/star-flow/references/star-flow/METHODOLOGY.md`
-4. Use templates from `~/.hermes/skills/star-flow/references/star-flow/templates/`
-5. Reference docs from `~/.hermes/skills/star-flow/references/star-flow/reference/` (search by section, do NOT load whole files)
+## 📥 前置工件检查
 
-## Handoff Protocol
+进入本阶段前，**必须先检查以下文件是否存在**：
 
-All agents in star-flow share the same file system:
-- `.specs/CONTEXT.md` — shared project context
-- `.specs/<change-id>/` — all stage artifacts for a change
-- `.specs/STATE.md` — current workflow state (active change, current stage, interrupted task)
+**需要检查的文件**：
+.specs/<change-id>/TASK.md
 
-After completing your stage:
-1. Write your output artifact to the correct location
-2. Update `.specs/STATE.md` with your completion status
-3. Report what was produced and what the next stage should be
+**检查规则**：
+检查 TASK.md 存在且当前 task 未标记完成。无 TASK → 拒绝。读取 STATE.md 确定要执行的 task（用户指定的 T<N>，或按顺序下一个待处理）。
 
-## Boundaries
+> ⚠️ 前置工件缺失时：**拒绝执行，汇报缺失项，要求先跑上游阶段**。不要跳过、不要猜测、不要自己编造。
 
-- Do NOT execute other stages — only your assigned stage
-- Do NOT modify artifacts produced by other stages
-- If a required upstream artifact is missing, report it and stop — do not improvise
+---
+
+## 📤 输出工件
+
+| 项目 | 详情 |
+|------|------|
+| **产出文件** | 代码变更 + .specs/<change-id>/SUMMARY.md |
+| **产出模板** | `references/star-flow/templates/SUMMARY.md` |
+| **状态更新** | STATE.md 记录当前 task 进度。完成时追加 SUMMARY。所有 task 完成后更新状态为 '4-dev 完成'。 |
+
+> 📐 产出前先加载对应的模板文件，按模板格式写入。不要自行发明格式。
+
+---
+
+## 📋 执行指令
+
+1. **读前置**：检查并读取上方列出的前置文件
+2. **读 Prompt**：加载 `~/.hermes/skills/star-flow/references/star-flow/prompts/4-dev.md`
+3. **读模板**：加载 `~/.hermes/skills/star-flow/references/star-flow/templates/SUMMARY.md`
+4. **读规则**：遵循 `~/.hermes/skills/star-flow/references/star-flow/RULES.md`
+5. **执行**：按 prompt 指令推进
+6. **产出**：按模板写入输出文件
+7. **更新状态**：更新 STATE.md
+8. **汇报**：完成后汇报产出物 + 下一步建议
+
+---
+
+## 🚫 边界
+
+按 TASK.md 逐项执行。TDD 流程：写测试→实现→重构→提交。每次只跑一个 task。不改 CHANGE/DESIGN/TASK。

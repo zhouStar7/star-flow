@@ -1,37 +1,55 @@
 ---
 name: star-flow-scan
-description: star-flow I-intel-scan stage — brownfield onboarding. Scans an existing project to generate .specs/CONTEXT.md. Trigger when told to scan/intel/入场扫描 a project.
+description: star-flow I-intel-scan stage — brownfield onboarding. Scans an existing project to generate .specs/CONTEXT.md. Trigger: scan/intel/入场扫描/老项目.
 metadata:
   short-description: Scan project, produce CONTEXT.md
 ---
 
 # star-flow-scan
 
-**Role**: Scanner — read-only, produces CONTEXT.md
-**Output**: .specs/CONTEXT.md
+**Role**: Scanner — read-only, scans project structure, produces CONTEXT.md
 
-## Instructions
+---
 
-1. Read the stage prompt: `~/.hermes/skills/star-flow/references/star-flow/prompts/I-intel-scan.md`
-2. Follow all rules in `~/.hermes/skills/star-flow/references/star-flow/RULES.md`
-3. Read shared methodology: `~/.hermes/skills/star-flow/references/star-flow/METHODOLOGY.md`
-4. Use templates from `~/.hermes/skills/star-flow/references/star-flow/templates/`
-5. Reference docs from `~/.hermes/skills/star-flow/references/star-flow/reference/` (search by section, do NOT load whole files)
+## 📥 前置工件检查
 
-## Handoff Protocol
+进入本阶段前，**必须先检查以下文件是否存在**：
 
-All agents in star-flow share the same file system:
-- `.specs/CONTEXT.md` — shared project context
-- `.specs/<change-id>/` — all stage artifacts for a change
-- `.specs/STATE.md` — current workflow state (active change, current stage, interrupted task)
+**需要检查的文件**：
+无（这是 star-flow 的起点）
 
-After completing your stage:
-1. Write your output artifact to the correct location
-2. Update `.specs/STATE.md` with your completion status
-3. Report what was produced and what the next stage should be
+**检查规则**：
+无需检查上游工件
 
-## Boundaries
+> ⚠️ 前置工件缺失时：**拒绝执行，汇报缺失项，要求先跑上游阶段**。不要跳过、不要猜测、不要自己编造。
 
-- Do NOT execute other stages — only your assigned stage
-- Do NOT modify artifacts produced by other stages
-- If a required upstream artifact is missing, report it and stop — do not improvise
+---
+
+## 📤 输出工件
+
+| 项目 | 详情 |
+|------|------|
+| **产出文件** | .specs/CONTEXT.md |
+| **产出模板** | `references/star-flow/templates/CONTEXT.md` |
+| **状态更新** | STATE.md 中记录 last_intel_scan 时间戳 |
+
+> 📐 产出前先加载对应的模板文件，按模板格式写入。不要自行发明格式。
+
+---
+
+## 📋 执行指令
+
+1. **读前置**：检查并读取上方列出的前置文件
+2. **读 Prompt**：加载 `~/.hermes/skills/star-flow/references/star-flow/prompts/I-intel-scan.md`
+3. **读模板**：加载 `~/.hermes/skills/star-flow/references/star-flow/templates/CONTEXT.md`
+4. **读规则**：遵循 `~/.hermes/skills/star-flow/references/star-flow/RULES.md`
+5. **执行**：按 prompt 指令推进
+6. **产出**：按模板写入输出文件
+7. **更新状态**：更新 STATE.md
+8. **汇报**：完成后汇报产出物 + 下一步建议
+
+---
+
+## 🚫 边界
+
+只读扫描，不写任何业务代码。不修改任何源文件。
