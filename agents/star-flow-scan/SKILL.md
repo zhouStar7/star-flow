@@ -2,6 +2,7 @@
 name: star-flow-scan
 description: star-flow I-intel-scan stage — brownfield onboarding. Scans an existing project to generate .specs/CONTEXT.md. Trigger: scan/intel/入场扫描/老项目.
 metadata:
+  model: codex
   role: scanner
   short-description: Scan project, produce CONTEXT.md
 ---

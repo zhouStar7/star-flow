@@ -2,6 +2,7 @@
 name: star-flow-task
 description: star-flow 3-task stage — break design into atomic tasks with dependencies. Trigger: 拆任务/task/分解.
 metadata:
+  model: claude
   role: planner
   short-description: Task breakdown, produce TASK.md
 ---

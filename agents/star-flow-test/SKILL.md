@@ -2,6 +2,7 @@
 name: star-flow-test
 description: star-flow 5-test stage — run the 5-tier test pyramid. Trigger: 测试/test.
 metadata:
+  model: codex
   role: builder
   short-description: Test execution, produce TEST.md
 ---

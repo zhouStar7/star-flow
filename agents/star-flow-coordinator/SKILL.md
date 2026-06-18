@@ -2,6 +2,7 @@
 name: star-flow-coordinator
 description: star-flow coordinator — routes user intent to the correct star-flow stage agent. Use as the single entry point. Trigger: star-flow/@star-flow/START.md/workflow intent.
 metadata:
+  model: claude
   role: coordinator
   short-description: Route to star-flow stages
 ---

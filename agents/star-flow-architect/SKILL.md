@@ -2,6 +2,7 @@
 name: star-flow-architect
 description: star-flow A-architect lateral command — establish/refactor project ARCHITECTURE.md. Trigger: 架构梳理/建立架构/architect.
 metadata:
+  model: claude
   role: maintainer
   short-description: Architecture document
 ---

@@ -2,6 +2,7 @@
 name: star-flow-integration
 description: star-flow 7-integration stage — final UAT, smoke tests, archive. Trigger: 集成/上线/验收/归档.
 metadata:
+  model: codex
   role: reviewer
   short-description: Integration & archive
 ---

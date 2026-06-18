@@ -2,6 +2,7 @@
 name: star-flow-design
 description: star-flow 2-design stage — make technical decisions, produce DESIGN.md with ADRs. Trigger: design/架构/设计.
 metadata:
+  model: claude
   role: planner
   short-description: Technical design, produce DESIGN.md
 ---

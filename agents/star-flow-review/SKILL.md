@@ -2,6 +2,7 @@
 name: star-flow-review
 description: star-flow 6-review stage — review code for spec compliance, quality, security. Trigger: review/审查/检查代码.
 metadata:
+  model: codex
   role: reviewer
   short-description: Code review, produce REVIEW.md
 ---

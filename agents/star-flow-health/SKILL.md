@@ -2,6 +2,7 @@
 name: star-flow-health
 description: star-flow M-health lateral command — codebase health check. Trigger: 体检/health/技术债/巡检.
 metadata:
+  model: codex
   role: maintainer
   short-description: Codebase health check
 ---

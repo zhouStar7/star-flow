@@ -2,6 +2,7 @@
 name: star-flow-dev
 description: star-flow 4-dev stage — implement one task with TDD + atomic commits. Trigger: 开发/实现/dev/跑 T<N>.
 metadata:
+  model: codex
   role: builder
   short-description: Develop code, TDD + commit
 ---
