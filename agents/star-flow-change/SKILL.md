@@ -40,9 +40,9 @@ metadata:
 ## 📋 执行指令
 
 1. **读前置**：检查并读取上方列出的前置文件
-2. **读 Prompt**：加载 `~/.hermes/skills/star-flow/references/star-flow/prompts/0-change.md`
-3. **读模板**：加载 `~/.hermes/skills/star-flow/references/star-flow/templates/CHANGE.md`
-4. **读规则**：遵循 `~/.hermes/skills/star-flow/references/star-flow/RULES.md`
+2. **读 Prompt**：加载 `../star-flow/references/star-flow/prompts/0-change.md`
+3. **读模板**：加载 `../star-flow/references/star-flow/templates/CHANGE.md`
+4. **读规则**：遵循 `../star-flow/references/star-flow/RULES.md`
 5. **执行**：按 prompt 指令推进
 6. **产出**：按模板写入输出文件
 7. **更新状态**：更新 STATE.md
