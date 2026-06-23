@@ -69,6 +69,24 @@ star-flow/
 
 ---
 
+## 边界规则 — 硬禁止
+
+每个角色有**自检清单**，确保不越界：
+
+| 角色类型 | 角色 | 禁止行为 |
+|---------|------|---------|
+| 🔀 协调者 | coordinator | ❌ 禁止 spawn 匿名子任务做开发；只做路由调度 |
+| 📝 文档产出者 | scan/change/requirement/design/task/ui-design/architect/evolve/health | ❌ 禁止 write_file/patch/terminal 触碰项目源码 |
+| 💻 开发 | dev | ❌ 禁止修改架构文档；禁止添加 TASK.md 外的功能 |
+| 🧪 测试 | test | ❌ 只测不修：发现问题写入报告，不自动改代码 |
+| 🔍 审查 | review | ❌ 只审不改：即使发现错误也只标注，不自动修复 |
+| 📦 集成 | integration | ❌ 只验收：不添加新功能、不修 bug |
+| 🎨 换皮 | restyle | ❌ 只改 CSS/token：不改组件逻辑、不增删组件 |
+
+> 每次行动前自检：我在做什么？→ 越界则立即停止。不确定时反问用户。
+
+---
+
 ## 工作流
 
 ```

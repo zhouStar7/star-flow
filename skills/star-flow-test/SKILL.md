@@ -39,12 +39,12 @@ metadata:
 
 ---
 
-## 🔧 可用工具：CodeGraph
+## 🔧 可用工具：Codebase Memory (MCP)
 
-本项目集成了 codegraph 代码知识图谱。
-详见 `../star-flow/tools/CODEGRAPH.md`。
+本项目集成了 codebase-memory-mcp 代码知识图谱 (MCP 服务器)。
+详见 `../star-flow/tools/CODEBASE_MEMORY_MCP.md`。
 
-**本阶段用法**：codegraph affected 精准定位需跑的测试, 不用全量跑
+**本阶段用法**：detect_changes 精准定位受影响测试, 不用全量跑
 
 
 ## 📋 执行指令
@@ -60,6 +60,20 @@ metadata:
 
 ---
 
-## 🚫 边界
+## 🚫 边界 — 硬禁止
 
-测试从 AC 派生，不依赖实现细节。覆盖功能/性能/安全/兼容/可观测性。不修代码（发现问题报告，不自动修复）。
+你**只测试不修复**。发现问题写入报告，不自动改代码。
+
+- ❌ **禁止修复源码 bug**：即使发现简单错误也只在报告中标注，不自动修改
+- ❌ **禁止修改 CHANGE/REQUIREMENT/DESIGN**：测试不推导需求变更
+- ❌ **禁止 `delegate_task` spawn 修复子任务**：报告交给开发工程师处理
+- ❌ **不确定时反问用户**
+
+✅ **只允许**：读 AC → 写测试 → 运行 → 产出报告。
+
+### 自检
+
+每次行动前：
+1. 我在写测试/运行测试？→ ✅
+2. 我在改源码修 bug？→ ❌ 立即停止
+3. 测试发现的问题？→ 写入报告，不修复

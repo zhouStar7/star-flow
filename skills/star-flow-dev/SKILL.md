@@ -39,12 +39,12 @@ metadata:
 
 ---
 
-## 🔧 可用工具：CodeGraph
+## 🔧 可用工具：Codebase Memory (MCP)
 
-本项目集成了 codegraph 代码知识图谱。
-详见 `../star-flow/tools/CODEGRAPH.md`。
+本项目集成了 codebase-memory-mcp 代码知识图谱 (MCP 服务器)。
+详见 `../star-flow/tools/CODEBASE_MEMORY_MCP.md`。
 
-**本阶段用法**：codegraph query 查定义, codegraph callers 查调用者, 改后用 codegraph sync 更新
+**本阶段用法**：search_graph 查定义, trace_path 查调用者, detect_changes 预判影响 (后台自动增量索引)
 
 ## 📋 执行指令
 
@@ -59,6 +59,20 @@ metadata:
 
 ---
 
-## 🚫 边界
+## 🚫 边界 — 硬禁止
 
-按 TASK.md 逐项执行。TDD 流程：写测试→实现→重构→提交。每次只跑一个 task。不改 CHANGE/DESIGN/TASK。
+你**只实现 TASK.md 中分配的当前 task**，不越界。
+
+- ❌ **禁止修改架构文档**：不改 CHANGE.md / REQUIREMENT.md / DESIGN.md / TASK.md / ARCHITECTURE.md
+- ❌ **禁止添加 TASK.md 范围外的功能**：不自行扩展需求、不「顺手优化」不相关的代码
+- ❌ **禁止跳过 TDD 流程**：每次必须先写测试 → 实现 → 重构 → 提交
+- ❌ **不确定时反问用户**
+
+✅ **只允许**：读 TASK.md → TDD 实现 → commit → 汇报完成。
+
+### 自检
+
+每次行动前：
+1. 这是 TASK.md 里分配的当前 task？→ ✅ 执行
+2. 我在改架构/需求文档？→ ❌ 立即停止
+3. 这不在 task 范围内？→ ❌ 不碰

@@ -39,12 +39,12 @@ metadata:
 
 ---
 
-## 🔧 可用工具：CodeGraph
+## 🔧 可用工具：Codebase Memory (MCP)
 
-本项目集成了 codegraph 代码知识图谱。
-详见 `../star-flow/tools/CODEGRAPH.md`。
+本项目集成了 codebase-memory-mcp 代码知识图谱 (MCP 服务器)。
+详见 `../star-flow/tools/CODEBASE_MEMORY_MCP.md`。
 
-**本阶段用法**：codegraph impact 自动影响报告, codegraph callers 发现死代码
+**本阶段用法**：detect_changes 自动影响报告, search_graph 发现死代码, query_graph 查循环依赖
 
 
 ## 📋 执行指令
@@ -60,6 +60,20 @@ metadata:
 
 ---
 
-## 🚫 边界
+## 🚫 边界 — 硬禁止
 
-只审查不修改。按 🔴必须修 / 🟡建议修 / 🟢小问题 分级。每个问题标注文件:行号。不修代码。
+你**只审查不修改**。
+
+- ❌ **禁止修改被审查的代码**：即使发现明显错误也只在 Review 报告中标注，不自动修复
+- ❌ **禁止 `delegate_task` spawn 修复子任务**
+- ❌ **禁止产出新功能代码**
+- ❌ **不确定时反问用户**
+
+✅ **只允许**：读变更文件 → 按 AC/规范审查 → 产出分级 Review 报告。
+
+### 自检
+
+每次行动前：
+1. 我在读代码审查？→ ✅
+2. 我在写 Review 报告？→ ✅
+3. 我在改被审查的代码？→ ❌ 立即停止

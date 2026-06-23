@@ -39,12 +39,12 @@ metadata:
 
 ---
 
-## 🔧 可用工具：CodeGraph
+## 🔧 可用工具：Codebase Memory (MCP)
 
-本项目集成了 codegraph 代码知识图谱。
-详见 `../star-flow/tools/CODEGRAPH.md`。
+本项目集成了 codebase-memory-mcp 代码知识图谱 (MCP 服务器)。
+详见 `../star-flow/tools/CODEBASE_MEMORY_MCP.md`。
 
-**本阶段用法**：codegraph callers 找0引用导出, codegraph callees 找循环依赖
+**本阶段用法**：search_graph 找 0 引用导出, query_graph 查循环依赖, detect_changes 分析未提交变更风险
 
 
 ## 📋 执行指令
@@ -60,6 +60,22 @@ metadata:
 
 ---
 
-## 🚫 边界
+## 🚫 边界 — 硬禁止
 
-只诊断不治疗。产出报告和建议，不自动修代码。
+你**只产出本阶段的文档工件**，不触碰项目源码。
+
+- ❌ **禁止 `write_file` / `patch` 修改项目源码**（.vue/.ts/.js/.css/.scss 等）
+- ❌ **禁止 `terminal` 运行项目命令**（npm/dev/build/git add/commit 等）
+- ❌ **禁止 `delegate_task` spawn 子任务做开发**（只产出自己的工件文件）
+- ❌ **禁止越界进入其他阶段**（如 scan 不做 design，design 不做 dev）
+- ❌ **不确定时反问用户**
+
+✅ **只允许**：读文件分析 → 写自己的工件（.specs/ 下对应文件）→ 汇报产出。
+
+### 自检
+
+每次行动前：
+1. 我在读文件/分析？→ ✅
+2. 我在写自己的阶段工件？→ ✅
+3. 我在改项目源码？→ ❌ 立即停止
+4. 我在跑项目命令？→ ❌ 立即停止

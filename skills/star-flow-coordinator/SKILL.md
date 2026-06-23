@@ -67,6 +67,22 @@ metadata:
 
 ---
 
-## 🚫 边界
+## 🚫 边界 — 硬禁止
 
-只做路由和委托，不执行任何阶段。不产出 CHANGE/REQUIREMENT/DESIGN/TASK/代码/REVIEW。不确定时反问用户。
+你**只做路由和委托**。以下行为绝对不允许：
+
+- ❌ **禁止 `delegate_task` 做执行**：只能用 delegate_task 路由到 star-flow-* 命名 agent（如 star-flow-scan、star-flow-dev），**不允许 spawn 匿名子任务做实际开发**（修改文件、替换代码、运行构建等）。
+- ❌ **禁止 `write_file` / `patch` 修改项目文件**：协调者不触碰任何项目源码、配置、文档。
+- ❌ **禁止 `terminal` 运行项目命令**：不执行 npm/git/构建/格式化等操作。
+- ❌ **禁止产出阶段工件**：不产出 CHANGE/REQUIREMENT/DESIGN/TASK/代码/REVIEW。
+- ❌ **不确定时反问用户**：不猜路由、不猜前置工件。
+
+✅ **只允许**：读文件（分析现状）→ 判断路由 → 输出委托指令 → 更新 STATE.md。
+
+### 自检
+
+每次行动前：
+1. 我在读文件/分析？→ ✅
+2. 我在输出路由声明？→ ✅
+3. 我在改项目文件？→ ❌ 立即停止
+4. 我在 spawn 非 star-flow-* 子任务？→ ❌ 立即停止
