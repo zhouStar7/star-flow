@@ -1,9 +1,4 @@
----
-name: star-flow
-description: AI 编程工作流引擎 — CHANGE → REQUIREMENT → DESIGN → TASK → DEV → TEST → REVIEW → INTEGRATION。14 个阶段 prompt + 13 个模板 + 6 个参考文档合为一体。支持单 Agent 全流程或 Multica 多 Agent 子流程编排。
----
-
-# GO — star-flow 统一入口
+# star-flow 统一入口
 
 > **使用方式**：`skill_view('star-flow')` 加载本文件。AI 看到本文件就按路由表自动决定阶段、自动生成 ID、自动按需加载工件，**不要等用户提供 ID 或路径**。
 
