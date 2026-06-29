@@ -1,112 +1,130 @@
 # star-flow
 
-一套 AI 编程工作流引擎——15 个独立 Agent Skill，5 种模型按能力分工。
-
-不是工具，是一组文件。clone 即用，无运行时依赖。
+一套纯 Markdown 的 AI 编程工作流引擎。把一次软件变更拆成 8 个阶段 + 5 个横向命令，全程无运行时依赖。
 
 ---
 
-## 快速开始
+## 安装
 
 ```bash
 git clone https://github.com/zhouStar7/star-flow.git
-cp -r star-flow/skills/* ~/.hermes/skills/
-cp -r star-flow/references ~/.hermes/skills/star-flow/references/
-cp star-flow/SKILL.md ~/.hermes/skills/star-flow/
+cp -r star-flow/* ~/.hermes/skills/star-flow/
 ```
 
-入口：`@star-flow/START.md` + 你的意图
-
----
-
-## 架构
+只有一个 skill，加载即用：
 
 ```
-star-flow/
-├── SKILL.md                 # 协调者入口（Hermes）
-├── skills/                  # 15 个独立 Agent Skill
-│   ├── star-flow-coordinator/    🔀 路由调度
-│   ├── star-flow-scan/           💻 老项目入场扫描
-│   ├── star-flow-change/         🤖 变更澄清
-│   ├── star-flow-requirement/    🤖 需求分析
-│   ├── star-flow-design/         🤖 架构设计
-│   ├── star-flow-ui-design/      🎨 UI 设计
-│   ├── star-flow-task/           🤖 任务拆解
-│   ├── star-flow-dev/            💻 开发执行
-│   ├── star-flow-test/           💻 测试
-│   ├── star-flow-review/         💻 代码审查
-│   ├── star-flow-integration/    📦 集成归档
-│   ├── star-flow-architect/      💻 架构建立
-│   ├── star-flow-evolve/         💻 架构演进
-│   ├── star-flow-restyle/        🎨 换视觉风格
-│   └── star-flow-health/         💻 代码体检
-├── references/              # 共享基础设施
-│   ├── START.md             # 路由规则
-│   ├── METHODOLOGY.md       # 方法论
-│   ├── RULES.md             # 🔴🟡🟢 三级规则
-│   ├── MODELS.md            # 模型分配方案
-│   ├── ROLES.md             # 角色分配表
-│   ├── prompts/             # 15 个阶段执行指令
-│   ├── templates/           # 14 个产出物模板
-│   └── reference/           # 6 个参考文档
-└── tools/
-    └── CODEGRAPH.md         # CodeGraph 集成指南
+skill_view('star-flow')
 ```
 
 ---
 
-## 模型分工
+## 使用方式
 
-| 模型 | Agent | 强项 |
-|------|:-----:|------|
-| 🔀 **Hermes** | coordinator | 协调路由 |
-| 🤖 **Claude** | change, requirement, design, task | 推理判断、PRD、架构 |
-| 💻 **Codex** | scan, dev, test, review, architect, evolve, health | 编码、审查、运维 |
-| 🎨 **Gemini** | ui-design, restyle | HTML 原型、视觉设计 |
-| 📦 **OpenCode** | integration | 集成归档 |
+### 单 Agent（直接对话）
 
-[完整模型分配](references/MODELS.md) · [角色分配表](references/ROLES.md)
+```
+@star-flow 给项目加个暗色模式
+```
+
+agent 按路由表自动加载对应阶段 prompt。
+
+### Multica 多人编排
+
+用 `--parent` + `--stage` 把各阶段分发给 squad 中不同 agent。所有 agent 统一绑 `star-flow` skill，按需加载不同 `file_path`。
+
+```bash
+# 1. 创建主 issue（容器）
+MAIN=$(multica issue create --title "暗色模式" --description "star-flow" --output json | jq -r '.id')
+
+# 2. 按 stage 创建子 issue
+multica issue create --title "[0-change] 澄清"        --parent $MAIN --stage 1 --assignee "需求师"
+multica issue create --title "[1-requirement] 写 AC"   --parent $MAIN --stage 1 --assignee "需求师"
+multica issue create --title "[2-design] 技术设计"     --parent $MAIN --stage 2 --assignee "架构师"
+multica issue create --title "[3-task] 拆解任务"       --parent $MAIN --stage 3 --assignee "规划师"
+multica issue create --title "[4-dev] T01 路由"        --parent $MAIN --stage 4 --assignee "开发者A"
+multica issue create --title "[4-dev] T02 主题"        --parent $MAIN --stage 4 --assignee "开发者B"
+multica issue create --title "[5-test] 全量测试"       --parent $MAIN --stage 5 --assignee "测试员"
+multica issue create --title "[6-review] 代码审查"     --parent $MAIN --stage 6 --assignee "审查员"
+multica issue create --title "[7-integration] 集成归档" --parent $MAIN --stage 7 --assignee "审查员"
+```
+
+**Stage barrier**：同 stage 所有子 issue done 后，下一 stage 自动唤醒。
 
 ---
 
-## 边界规则 — 硬禁止
+## Agent 编排
 
-每个角色有**自检清单**，确保不越界：
-
-| 角色类型 | 角色 | 禁止行为 |
-|---------|------|---------|
-| 🔀 协调者 | coordinator | ❌ 禁止 spawn 匿名子任务做开发；只做路由调度 |
-| 📝 文档产出者 | scan/change/requirement/design/task/ui-design/architect/evolve/health | ❌ 禁止 write_file/patch/terminal 触碰项目源码 |
-| 💻 开发 | dev | ❌ 禁止修改架构文档；禁止添加 TASK.md 外的功能 |
-| 🧪 测试 | test | ❌ 只测不修：发现问题写入报告，不自动改代码 |
-| 🔍 审查 | review | ❌ 只审不改：即使发现错误也只标注，不自动修复 |
-| 📦 集成 | integration | ❌ 只验收：不添加新功能、不修 bug |
-| 🎨 换皮 | restyle | ❌ 只改 CSS/token：不改组件逻辑、不增删组件 |
-
-> 每次行动前自检：我在做什么？→ 越界则立即停止。不确定时反问用户。
+| Agent | 职责 | 加载的 file_path |
+|-------|------|-----------------|
+| 需求师 | 需求澄清 + 验收标准 | `prompts/0-change.md`, `prompts/1-requirement.md` |
+| 架构师 | 技术设计 + 架构决策 | `prompts/2-design.md` + `references/tech-stacks.md` |
+| UI 设计师 | 视觉设计 + 换风格 | `prompts/2a-ui-design.md` + `references/ui-aesthetics.md` |
+| 规划师 | 任务拆解 | `prompts/3-task.md` |
+| 开发者 | 编码 + 项目入场 | `prompts/4-dev.md` + `references/frontend-engineer-rules.md` |
+| 测试员 | 全量测试 | `prompts/5-test.md` + `references/test-pyramid.md` |
+| 审查员 | 代码审查 + 集成 + 体检 | `prompts/6-review.md`, `prompts/7-integration.md` |
 
 ---
 
 ## 工作流
 
 ```
-🔀 Hermes   🤖 Claude              🎨 Gemini   💻 Codex                    📦 OpenCode
-    │           │                      │           │                           │
- 协调路由 → change → requirement → ui-design → dev → test → review → architect → integration
-                └── design ──┘                      └── scan ──┘  └── evolve ──┘
-                └── task ───┘                                    └── health ──┘
-                                                    └── restyle ─┘
+前端: CHANGE → REQUIREMENT → DESIGN → UI-DESIGN → TASK → DEV → TEST → REVIEW → INTEGRATION
+后端: CHANGE → REQUIREMENT → DESIGN → TASK → DEV → TEST → REVIEW → INTEGRATION
 ```
 
+横向命令（任何时候可单独调用）：
+- **I-scan** — 老项目入场扫描 → CONTEXT.md
+- **A-architect** — 建立 / 重构架构 → ARCHITECTURE.md
+- **A-evolve** — 同步架构文档
+- **L-restyle** — 换视觉风格（只改 CSS，不动逻辑）
+- **M-health** — 代码库健康检查
+
 ---
 
-## 工具集成
+## 文件结构
 
-- **[CodeGraph](tools/CODEGRAPH.md)** — 代码知识图谱，替代手动 grep/find/tree
-- 支持 Windsurf / Claude Code / Cursor / Copilot / Codex / Gemini / Cline 等 AI IDE
-
----
-
-## 为什么是纯 markdown
-
-不依赖 CLI、不绑版本。clone 就用，想改哪条改哪个 `.md`。不会某天被工具更新坑到。
+```
+star-flow/
+├── SKILL.md                  # 入口（路由表 + 规则 + 使用说明）
+├── README.md                # 本文件
+├── prompts/                 # 14 个阶段执行指令
+│   ├── 0-change.md
+│   ├── 1-requirement.md
+│   ├── 2-design.md
+│   ├── 2a-ui-design.md
+│   ├── 3-task.md
+│   ├── 4-dev.md
+│   ├── 5-test.md
+│   ├── 6-review.md
+│   ├── 7-integration.md
+│   ├── A-architect.md
+│   ├── A-evolve.md
+│   ├── I-intel-scan.md
+│   ├── L-restyle.md
+│   └── M-health.md
+├── templates/               # 13 个产出物模板
+│   ├── CHANGE.md
+│   ├── REQUIREMENT.md
+│   ├── DESIGN.md
+│   ├── UI-DESIGN.md
+│   ├── TASK.md
+│   ├── SUMMARY.md
+│   ├── PROGRESS.md
+│   ├── TEST.md
+│   ├── REVIEW.md
+│   ├── CONTEXT.md
+│   ├── ARCHITECTURE.md
+│   ├── STATE.md
+│   └── LESSONS.md
+└── references/              # 规则 + 查阅型资料
+    ├── RULES.md
+    ├── SYSTEM.md
+    ├── tech-stacks.md
+    ├── frontend-engineer-rules.md
+    ├── test-pyramid.md
+    ├── ui-aesthetics.md
+    ├── ui-anti-patterns.md
+    └── forge.md
+```
