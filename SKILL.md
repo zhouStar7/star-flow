@@ -367,13 +367,12 @@ read_file path="references/tech-stacks.md" offset=380 limit=60
 |-------|------|------|
 | star-flow-dispatcher | 路由 + 上下文检测 + 门禁 + issue 创建 | 本文件 + `star-flow-dispatcher` skill |
 | star-flow-analyst | 0-change, 1-requirement | `prompts/0-change.md`, `prompts/1-requirement.md` |
-| star-flow-architect | 2-design, A-architect | `prompts/2-design.md` + `references/tech-stacks.md` |
+| star-flow-architect | 2-design | `prompts/2-design.md` + `references/tech-stacks.md` |
 | star-flow-ui-designer | 2a-ui-design, L-restyle | `prompts/2a-ui-design.md` + `references/ui-aesthetics.md` |
 | star-flow-planner | 3-task | `prompts/3-task.md` + `templates/TASK.md` |
 | star-flow-developer | 4-dev | `prompts/4-dev.md` + `references/frontend-engineer-rules.md` |
-| star-flow-inspector | I-intel-scan | `prompts/I-intel-scan.md` |
-| star-flow-qa | 5-test | `prompts/5-test.md` + `references/test-pyramid.md` |
-| star-flow-inspector | 6-review, 7-integration, M-health | `prompts/6-review.md`, `prompts/7-integration.md` |
+| star-flow-inspector | I-intel-scan, M-health, A-architect, A-evolve | `prompts/I-intel-scan.md`, `prompts/M-health.md` |
+| star-flow-qa | 5-test, 6-review, 7-integration | `prompts/5-test.md` + `references/test-pyramid.md`, `prompts/6-review.md`, `prompts/7-integration.md` |
 
 **Multica issue 结构**：
 ```
@@ -386,7 +385,7 @@ read_file path="references/tech-stacks.md" offset=380 limit=60
 ├── Stage 6 ── [4-dev] 任务执行 → 产出物 → star-flow-developer
 ├── Stage 7 ── [5-test] 测试验证 → TEST.md → star-flow-qa
 ├── Stage 8 ── [4-dev fix] 问题修复 → 修复产出 → star-flow-developer
-└── Stage 9 ── [6-review+7-integration] 验收归档 → REVIEW.md → star-flow-inspector
+└── Stage 9 ── [6-review+7-integration] 验收归档 → REVIEW.md → star-flow-qa
 ```
 
 **流程**：
