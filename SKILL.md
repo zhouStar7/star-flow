@@ -235,8 +235,21 @@ dispatcher 在子 issue description 中写入完整执行协议：
 项目路径: <project_path>
 项目上下文: <ai_context_doc>
 
---- 执行协议 ---
-1. cd <project_path>            ← 先定位项目
+--- 执行协议（根据工作空间类型选择） ---
+
+**模式 A · 共享本地工作空间（所有 agent 在同一台机器上）**
+```
+1. cd <project_path>
+2. 读 <ai_context_doc>          ← 遵循项目约定（编码规范 / 架构约定）
+3. load star-flow prompt        ← 进入阶段执行
+4. 产出工件到 .specs/<change-id>/
+5. 标记 done
+```
+> 所有 agent 共享文件系统，上游工件直接可见，无需 git 流转。
+
+**模式 B · 独立 / 远程工作空间（agent 在不同机器或需 git 同步）**
+```
+1. cd <project_path>
 2. git pull                     ← 拉取最新代码（含上游工件提交）
 3. 读 <ai_context_doc>          ← 遵循项目约定（git pull / PR 流程 / 编码规范）
 4. load star-flow prompt        ← 进入阶段执行
@@ -245,8 +258,8 @@ dispatcher 在子 issue description 中写入完整执行协议：
 7. 标记 done
 ```
 
-- 如果 `ai_context_doc: none`，跳过步骤 3
-- 工件必须提交到仓库，否则下游 worker `git pull` 拉不到
+- 默认走**模式 A**（共享本地工作空间）
+- 如果 `ai_context_doc: none`，跳过读上下文步骤
 
 ---
 
